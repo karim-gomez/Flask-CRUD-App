@@ -1,0 +1,50 @@
+{% extends 'base.html' %} 
+
+
+{% block head %} 
+<title>Login </title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 mt-2">
+      <div class="content-section" style="border-radius: 3%">
+        <h3 style="text-align: center; color: green">Login</h3>
+        <!-- <h1 style="text-align:center;">Login</h1> -->
+
+        <hr class="intro-divider" />
+
+        <form method="POST" action="">
+          {{ form.hidden_tag() }} 
+          {{ form.email.label() }} 
+          {{form.email(class='form-control') }} 
+          {{ form.password.label() }} 
+          {{form.password(class='form-control') }}
+
+          <div class="form-group pt-4">
+            {{ form.submit(class="btn btn-success btn-block") }}
+            <small class="text-muted ml-2">
+              <a href="#">Forget Password? </a>
+            </small>
+          </div>
+
+          <div class="border-top pt-5 pb-4">
+            <small class="text-muted ml-2">
+              <!-- inside the url_for we passed the 'function name' not the route -->
+              Need User?
+              <a
+                class="btn btn-outline-success"
+                href="{{ url_for('register')}}"
+              >
+                Sign Up
+              </a>
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

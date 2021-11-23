@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+
+{% block head %} 
+<title> Users  </title>
+{% endblock %}
+
+{% block body %}
+
+<div class="container mb-4">
+  <div class="content-section pt-2">
+    <h1 style="text-align:center;">Users</h1>
+    {% if users %}
+    <hr class="intro-divider">
+    <div class="center">
+
+      <!-- To create a responsive table (style="overflow-x:auto;") has been add  -->
+      <div style="overflow-x:auto;">
+        <table id="data" class="table table-hover table-striped table-bordered ">
+
+          <thead class="bg-secondary text-white">
+            <tr>
+
+
+              <th width="15%"> Name </th>
+              <th width="25%"> Email </th>
+              <th width="5%"> Product </th>
+              <th width="5%"> Delete </th>
+
+            </tr>
+          </thead>
+          {% for user in users %}
+          <tr>
+            <td> {{ user.username }} </td>
+            <td> {{ user.email }} </td>
+            <td>
+              {% if user.product %}
+                {{ user.product.count() }}
+              {% else %}
+              0
+              {% endif %}
+            </td>
+
+            <td>
+              <a class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal-{{ user.id }}"
+                href="{{ url_for('delete_user', id=user.id) }}">Delete </a>
+
+            </td>
+
+
+          </tr>
+
+
+          <!-- Delete Modal -->
+          <div class="modal fade" id="deleteModal-{{ user.id }}" tabindex="-1" role="dialog"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                  <h5 class="modal-title" id="deleteModal">Delete Confirmation</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <!-- <button type="button" class="btn btn-primary">Delete changes</button> -->
+                  <form method="POST" action="{{ url_for('delete_user', id=user.id) }}">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+
+
+                  </form>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+
+          {% endfor %}
+
+          </tbody>
+
+
+
+        </table>
+
+      </div>
+
+    </div>
+
+    <div style="text-align: center">
+      {% else %}
+      <div style="text-align: center">
+        <h3> Click Below Button to Add new User. </h3>
+        <hr class="intro-divider">
+        {% endif %}
+
+
+      </div>
+      <a class="btn btn-outline-secondary btn-block mt-3" data-toggle="modal" data-target="#add-user-modal"
+        href="{{ url_for('new_user_acount') }}">Add User</a>
+    </div>
+
+  </div>
+</div>
+<!-- Adding modal -->
+
+<div class="modal" id="add-user-modal">
+  <div class="modal-dialog">
+    <div class="modal-content animated slide-in-left">
+
+      <div class="modal-header bg-success text-white ">
+
+        <h3> Add Confirmation </h3>
+        <button class="btn-close" data-dismiss="modal">
+          <i class="fa fa-times-circle"></i>
+
+        </button>
+
+      </div>
+      <div class="modal-body bg-secondary">
+        <form method="POST" action="{{ url_for('new_user_acount') }} " class="form-register"
+          style="color: rgb(241, 235, 235)">
+
+          <!-- this line gon protacts the forms from CSRF attack  -->
+          {{ form.hidden_tag() }}
+
+          {{ form.email.label() }}
+          {{ form.email(class='form-control', placeholder='Email') }}
+
+          {{ form.username.label() }}
+          {{ form.username(class='form-control', placeholder='User Name') }}
+
+          {{ form.password.label() }}
+          {{ form.password(class='form-control', placeholder='password') }}
+
+          {{ form.confirm_password.label() }}
+          {{ form.confirm_password(class='form-control', placeholder=' confirm password') }}
+
+
+
+          <br>
+          {{ form.submit(class='btn btn-primary btn-lg btn-block') }}
+        </form>
+
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

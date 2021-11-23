@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% block head %}
+
+    {% endblock %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- datatables  CDN Download https://www.datatables.net/download/-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    {% if title %}
+    <title>Z-Company - {{title}}</title>
+    {% else %}
+    <title> Z-Company </title>
+
+    {% endif %}
+
+</head>
+<style>
+    footer a {
+        color: #7c7272;
+    }
+</style>
+
+<body>
+    
+    <nav class="navbar navbar-expand-md navbar-light bg-light ">
+        <div class="container">
+            <a class="navbar-brand mb-auto " href="/"> <i class="fa fa-home fa-fw"></i> Z_Company</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav ml-auto">
+
+                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+
+                    <a class="nav-item nav-link" href="{{url_for('admin_dashboard')}}"> Dashboard</a>
+                    <a class="nav-item nav-link" href="{{url_for('get_users')}}">Users</a>
+                    <a class="nav-item nav-link" href="{{url_for('get_products')}}">Products</a>
+                    
+                    {% else %}
+                    
+                    <a class="nav-item nav-link" href="{{url_for('user_dashboard')}}">Dashboard</a>
+                    {% endif %}
+                    <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
+                    <a class="mt-2 ml-2"><i class="fa fa-user"></i> Hi, {{ current_user.username }}!</a>
+
+                    {% else %}
+                    <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
+                    <a class="nav-item nav-link" href="{{url_for('register')}}">Register</a>
+                    {% endif %}
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="container pt-4 mt-4">
+        <div class="card pt-5" style=" background-color:whitesmoke; border-radius: 1%;">
+            <div class="row">
+                <div class="col">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <button type="button" class='colse' data-dismiss="alert" aria-label="close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col">
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- heres how it be centred -->
+        <!-- <div class="col-md-8 offset-md-2 mt-4"></div> -->
+
+
+    </div>
+    <footer style="background-color: whitesmoke; padding-bottom: 5%;">
+        <p></p>
+        <div class="container mt-5">
+            <div class="row pt-4">
+
+                <div class="col-md-2">
+                    <a href="#">Home</a>
+                </div>
+
+                <div class="col">
+                    <a href="#">Register</a>
+                </div>
+                <div class="col-md-2">
+                    <a href="#">Login</a>
+                </div>
+
+
+            </div>
+
+            <div class="footer-copyright text-center py-4">
+                <p class="copyright text-muted small">Copyright © 2021. All Rights Reserved</p>
+
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+        <!-- CDN Download https://www.datatables.net/download/-->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+      
+            //$(document).ready(function () {
+            //    $('.table').DataTable();
+            //});
+      
+            //  $("#data").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+              $('#data').DataTable();
+        });
+      </script>
+</body>
+
+</html>
