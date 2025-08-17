@@ -14,6 +14,7 @@ def home():
     return render_template("home.html")
 
 #
+#
 # admin_dashboard route
 @app.route('/admin_dashboard')
 def admin_dashboard():
